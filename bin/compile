@@ -180,6 +180,14 @@ source $BIN_DIR/steps/gdal
 # Install dependencies with Pip.
 source $BIN_DIR/steps/pip-install
 
+VENDORED_NODE="https://s3.amazonaws.com/audish-binaries/node-0.4.7.tgz"
+echo "-----> Noticed pyexecjs. Bootstrapping node."
+
+curl -L -s $VENDORED_NODE | tar -zx -C bin
+# pyexecjs 1.0 has a bug where it expects an external binary called 'command'; we'll create this binary for it
+#  and activate the venv so 'command' will be in the path (https://github.com/doloopwhile/PyExecJS/pull/1)
+
+
 # Django collectstatic support.
 sub-env $BIN_DIR/steps/collectstatic
 
